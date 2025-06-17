@@ -301,11 +301,11 @@ ids.Totems = {
 	{"Windfury Totem", "wfTotemEXP"},
 }
 ids.wpnEnchantments = {
-	["Flametongue Weapon"] = {5,4,3,523,1665,1666,2634,3779,3780,3781},
-	["Frostbrand Weapon"] = {2,12,524,1667,1668,2635,3782,3783,3784},
-	["Rockbiter Weapon"] = {29,6,3029,3032},
---		["Earthliving Weapon"] = {3345,3346,3347,3348,3349,3350},
-	["Windfury Weapon"] = {283,284,525,1669,2636,3785,3786,3787},
+    ["Flametongue Weapon"] = {5,4,3,523,1665,1666},
+    ["Frostbrand Weapon"] = {2,12,524,1667,1668},
+    ["Rockbiter Weapon"] = {29,6,1,503,1663,683,1664},
+--        ["Earthliving Weapon"] = {3345,3346,3347,3348,3349,3350},
+    ["Windfury Weapon"] = {283,284,525,1669},
 }
 
 function ConROC:UpdateSpellID()

@@ -1,911 +1,473 @@
-ConROC.Shaman = {};
-
 local ConROC_Shaman, ids = ...;
 
-function ConROC:EnableRotationModule()
-	self.Description = 'Shaman';
-	self.NextSpell = ConROC.Shaman.Damage;
+--General
+ids.Racial = {
+	Berserking = 20554,
+}
+ids.Spec = {
+	Elemental = 1,
+	Enhancement = 2,
+	Restoration = 3,
+}
+ids.Ability = {
+--Elemental
+	ChainLightning = 421,
+	EarthShock = 8042,
+	EarthbindTotem = 2484,
+	ElementalMastery = 16166,
+	FireNovaTotem = 1535,
+	FlameShock = 8050,
+	FrostShock = 8056,
+	LightningBolt = 403,
+	MagmaTotem = 8190,
+	Purge = 370,
+	SearingTotem = 3599,
+	StoneclawTotem = 5730,
+--Enhancement
+	AstralRecall = 556,
+	GhostWolf = 2645,
+	FarSight = 6196,
+	FireResistanceTotem = 8184,
+	FlametongueTotem = 8227,
+	FlametongueWeapon = 8024,
+	FlametongueWeaponDR = 8024,
+	FrostResistanceTotem = 8181,
+	FrostbrandWeapon = 8033,
+	GraceofAirTotem = 8835,
+	GroundingTotem = 8177,
+	LightningShield = 324,
+	NatureResistanceTotem = 10595,
+	RockbiterWeapon = 8017,
+	SentryTotem = 6495,
+	StoneskinTotem = 8071,
+	Stormstrike = 17364,
+	StrengthofEarthTotem = 8075,
+	WaterBreathing = 131,
+	WaterWalking = 546,
+	WindfuryTotem = 8512,
+	WindfuryWeapon = 8232,
+	WindwallTotem = 15107,
+--Restoration
+	AncestralSpirit = 2008,
+	ChainHeal = 1064,
+	CureDisease = 2870,
+	CurePoison = 526,
+	DiseaseCleansingTotem = 8170,
+	HealingStreamTotem = 5394,
+	HealingWave = 331,
+	LesserHealingWave = 8004,
+	ManaSpringTotem = 5675,
+	ManaTideTotem = 16190,
+	NaturesSwiftness = 16188,
+	PoisonCleansingTotem = 8166,
+	Reincarnation = 20608,
+	TranquilAirTotem = 25908,
+	TremorTotem = 8143,
+}
+ids.Rank = {
+--Elemental
+	ChainLightningRank2 = 930,
+	ChainLightningRank3 = 2860,
+	ChainLightningRank4 = 10605,
+	EarthShockRank1 = 8042,
+	EarthShockRank2 = 8044,
+	EarthShockRank3 = 8045,
+	EarthShockRank4 = 8046,
+	EarthShockRank5 = 10412,
+	EarthShockRank6 = 10413,
+	EarthShockRank7 = 10414,
+	FireNovaTotemRank2 = 8498,
+	FireNovaTotemRank3 = 8499,
+	FireNovaTotemRank4 = 11314,
+	FireNovaTotemRank5 = 11315,
+	FlameShockRank1 = 8050,
+	FlameShockRank2 = 8052,
+	FlameShockRank3 = 8053,
+	FlameShockRank4 = 10447,
+	FlameShockRank5 = 10448,
+	FlameShockRank6 = 29228,
+	FrostShockRank2 = 8058,
+	FrostShockRank3 = 10472,
+	FrostShockRank4 = 10473,
+	LightningBoltRank2 = 529,
+	LightningBoltRank3 = 548,
+	LightningBoltRank4 = 915,
+	LightningBoltRank5 = 943,
+	LightningBoltRank6 = 6041,
+	LightningBoltRank7 = 10391,
+	LightningBoltRank8 = 10392,
+	LightningBoltRank9 = 15207,
+	LightningBoltRank10 = 15208,
+	MagmaTotemRank2 = 10585,
+	MagmaTotemRank3 = 10586,
+	MagmaTotemRank4 = 10587,
+	MagmaTotemRank5 = 25552,
+	PurgeRank2 = 8012,
+	SearingTotemRank2 = 6363,
+	SearingTotemRank3 = 6364,
+	SearingTotemRank4 = 6365,
+	SearingTotemRank5 = 10437,
+	SearingTotemRank6 = 10438,
+	StoneclawTotemRank2 = 6390,
+	StoneclawTotemRank3 = 6391,
+	StoneclawTotemRank4 = 6392,
+	StoneclawTotemRank5 = 10427,
+	StoneclawTotemRank6 = 10428,
+--Enhancement
+	FireResistanceTotemRank2 = 10537,
+	FireResistanceTotemRank3 = 10538,
+	FlametongueTotemRank2 = 8249,
+	FlametongueTotemRank3 = 10526,
+	FlametongueTotemRank4 = 16387,
+	FlametongueWeaponRank1 = 8024,
+	FlametongueWeaponRank2 = 8027,
+	FlametongueWeaponRank3 = 8030,
+	FlametongueWeaponRank4 = 16339,
+	FlametongueWeaponRank5 = 16341,
+	FlametongueWeaponRank6 = 16342,
+	FrostResistanceTotemRank2 = 10478,
+	FrostResistanceTotemRank3 = 10479,
+	FrostbrandWeaponRank2 = 8038,
+	FrostbrandWeaponRank3 = 10456,
+	FrostbrandWeaponRank4 = 16355,
+	FrostbrandWeaponRank5 = 16356,
+	GraceofAirTotemRank2 = 10627,
+	LightningShieldRank2 = 325,
+	LightningShieldRank3 = 905,
+	LightningShieldRank4 = 945,
+	LightningShieldRank5 = 8134,
+	LightningShieldRank6 = 10431,
+	LightningShieldRank7 = 10432,
+	NatureResistanceTotemRank2 = 10600,
+	NatureResistanceTotemRank3 = 10601,
+	RockbiterWeaponRank2 = 8018,
+	RockbiterWeaponRank3 = 8019,
+	RockbiterWeaponRank4 = 10399,
+	RockbiterWeaponRank5 = 16314,
+	RockbiterWeaponRank6 = 16315,
+	RockbiterWeaponRank7 = 16316,
+	StoneskinTotemRank2 = 8154,
+	StoneskinTotemRank3 = 8155,
+	StoneskinTotemRank4 = 10406,
+	StoneskinTotemRank5 = 10407,
+	StoneskinTotemRank6 = 10408,
+	StrengthofEarthTotemRank2 = 8160,
+	StrengthofEarthTotemRank3 = 8161,
+	StrengthofEarthTotemRank4 = 10442,
+	StrengthofEarthTotemRank5 = 25361,
+	WindfuryTotemRank2 = 10613,
+	WindfuryTotemRank3 = 10614,
+	WindfuryWeaponRank2 = 8235,
+	WindfuryWeaponRank3 = 10486,
+	WindfuryWeaponRank4 = 16362,
+	WindwallTotemRank2 = 15111,
+	WindwallTotemRank3 = 15112,
+--Restoration
+	AncestralSpiritRank2 = 20609,
+	AncestralSpiritRank3 = 20610,
+	AncestralSpiritRank4 = 20776,
+	AncestralSpiritRank5 = 20777,
+	ChainHealRank2 = 10622,
+	ChainHealRank3 = 10623,
+	HealingStreamTotemRank2 = 6375,
+	HealingStreamTotemRank3 = 6377,
+	HealingStreamTotemRank4 = 10462,
+	HealingStreamTotemRank5 = 10463,
+	HealingWaveRank2 = 332,
+	HealingWaveRank3 = 547,
+	HealingWaveRank4 = 913,
+	HealingWaveRank5 = 939,
+	HealingWaveRank6 = 959,
+	HealingWaveRank7 = 8005,
+	HealingWaveRank8 = 10395,
+	HealingWaveRank9 = 10396,
+	HealingWaveRank10 = 25357,
+	LesserHealingWaveRank2 = 8008,
+	LesserHealingWaveRank3 = 8010,
+	LesserHealingWaveRank4 = 10466,
+	LesserHealingWaveRank5 = 10467,
+	LesserHealingWaveRank6 = 10468,
+	ManaSpringTotemRank2 = 10495,
+	ManaSpringTotemRank3 = 10496,
+	ManaSpringTotemRank4 = 10497,
+	ManaTideTotemRank2 = 17354,
+	ManaTideTotemRank3 = 17359,
+}
+ids.Elemental_Talent = { 
+	CallofFlame =  1, 
+	CallofThunder =  2, 
+	Concussion =  3, 
+	Convection =  4, 
+	ElementalFury =  5, 
+	ImprovedFireTotems =  6, 
+	EarthsGrasp =  7, 
+	ElementalMastery =  8, 
+	ElementalFocus =  9, 
+	Reverberation =  10, 
+	LightningMastery =  11, 
+	ElementalWarding =  12, 
+	StormReach =  13, 
+	EyeoftheStorm =  14, 
+	ElementalDevastation =  15, 
+}
+ids.Enhancement_Talent = { 
+	Anticipation =  1, 
+	Flurry =  2, 
+	ImprovedGhostWolf =  3, 
+	ImprovedLightningShield =  4, 
+	GuardianTotems =  5, 
+	EnhancingTotems =  6, 
+	ElementalWeapons =  7, 
+	ShieldSpecialization =  8, 
+	ThunderingStrikes =  9, 
+	AncestralKnowledge =  10, 
+	Toughness =  11, 
+	Parry =  12, 
+	TwoHandedAxesandMaces =  13, 
+	Stormstrike =  14, 
+	WeaponMastery =  15, 
+	ImprovedWeaponTotems =  16, 
+}
+ids.Restoration_Talent = { 
+	AncestralHealing =  1, 
+	TotemicMastery =  2, 
+	NaturesGuidance =  3, 
+	ImprovedHealingWave =  4, 
+	HealingFocus =  5, 
+	RestorativeTotems =  6, 
+	ImprovedReincarnation =  7, 
+	ManaTideTotem =  8, 
+	NaturesSwiftness =  9, 
+	Purification =  10, 
+	TidalFocus =  11, 
+	TidalMastery =  12, 
+	TotemicFocus =  13, 
+	HealingGrace =  14, 
+	HealingWay =  15, 
+}
+ids.Engrave = {
+	--Waist--
+	MaelstromWeapon = 6879,
+	PowerSurge = 6980,
+	--Wrist--
+	RollingThunder = 7126,
+}
+ids.Runes = {
+	EarthShield = 408514,
+	FeralSpirit = 440580,
+	LavaBurst = 408490,
+	LavaLash = 408507,
+	MoltenBlast = 425339,
+	ShamanisticRage = 425336,
+	WaterShield = 408510,
 
-	self:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED');
-	self:RegisterEvent('PLAYER_TOTEM_UPDATE');
-	self.lastSpellId = 0;
-
-	if ConROCSpellmenuClass == nil then
-		ConROC:SpellmenuClass();
-	end
-end
-
-function ConROC:EnableDefenseModule()
-	self.NextDef = ConROC.Shaman.Defense;
-end
-
-function ConROC:UNIT_SPELLCAST_SUCCEEDED(event, unitID, lineID, spellID)
-	if unitID == 'player' then
-		self.lastSpellId = spellID;
-	end
-end
-
-ConROC.totemVariables = {
-    eeTotemEXP = 0,
-    feTotemEXP = 0,
-    cTotemEXP = 0,
-    ebTotemEXP = 0,
-    fResistTotemEXP = 0,
-    fnTotemEXP = 0,
-    ftTotemEXP = 0,
-    frResistTotemEXP = 0,
-    goaTotemEXP = 0,
-    grTotemEXP = 0,
-    hStreamEXP = 0,
-    mTotemEXP = 0,
-    mSpringTotemEXP = 0,
-    mTideTotemEXP = 0,
-    nResistTotemEXP = 0,
-    searTotemEXP = 0,
-    senTotemEXP = 0,
-    scTotemEXP = 0,
-    sSkinTotemEXP = 0,
-    soeTotemEXP = 0,
-    tTotemEXP = 0,
-    wfTotemEXP = 0,
-    -- Add more variables as needed
+	TwoHandedMastery = 436365, --Phase 2 -passive -buff 10sec 30% inc atk speed
+	MaelstromWeapon = 408505, --Phase 2 -passive -buff reduce casttime and mana by 20% stacks up to 5
+	SpiritoftheAlpha = 408696, --Phase 2 -buff 30min Increases threat generated by 45%.
+}
+-- Auras
+ids.Buff = {
+	Clearcasting = 16246,
+	PowerSurge = 440285,
+}
+ids.Debuff = {
+	MaelstromWeapon = 408505,
+}
+ids.Totems = {
+	{"Disease Cleansing Totem", "dcTotemEXP"},
+	{"Fire Nova Totem", "fnovaTotemEXP"},
+	{"Grace of Air Totem", "goaTotemEXP"},
+	{"Poison Cleansing Totem", "pcTotemEXP"},
+	{"Tranquil Air Totem", "taTotemEXP"},
+	{"Windwall Totem", "wwTotemEXP"},
+	{"Cleansing Totem", "cTotemEXP"},
+	{"Earthbind Totem", "ebTotemEXP"},
+	{"Fire Resistance Totem", "fResistTotemEXP"},
+	{"Fire Nova Totem", "fnTotemEXP"},
+	{"Flametongue Totem", "ftTotemEXP"},
+	{"Frost Resistance Totem", "frResistTotemEXP"},
+	{"Grounding Totem", "grTotemEXP"},
+	{"Healing Stream Totem", "hStreamEXP"},
+	{"Magma Totem", "mTotemEXP"},
+	{"Mana Spring Totem", "mSpringTotemEXP"},
+	{"Mana Tide Totem", "mTideTotemEXP"},
+	{"Nature Resistance Totem", "nResistTotemEXP"},
+	{"Searing Totem", "searTotemEXP"},
+	{"Sentry Totem", "senTotemEXP"},
+	{"Stoneclaw Totem", "scTotemEXP"},
+	{"Stoneskin Totem", "sSkinTotemEXP"},
+	{"Strength of Earth Totem", "soeTotemEXP"},
+	{"Tremor Totem", "tTotemEXP"},
+	{"Windfury Totem", "wfTotemEXP"},
+}
+ids.wpnEnchantments = {
+    ["Flametongue Weapon"] = {5,4,3,523,1665,1666},
+    ["Frostbrand Weapon"] = {2,12,524,1667,1668},
+    ["Rockbiter Weapon"] = {29,6,1,503,1663,683,1664},
+--        ["Earthliving Weapon"] = {3345,3346,3347,3348,3349,3350},
+    ["Windfury Weapon"] = {283,284,525,1669},
 }
 
-function ConROC:PLAYER_TOTEM_UPDATE()
-    if ConROC:CheckBox(ConROC_SM_Option_Totems) then
-    	local totems = ids.Totems;
-        for i = 1, 4 do
-            local haveTotem, totemName, startTime, duration, icon = GetTotemInfo(i)
-            if haveTotem and totemName ~= nil then
-                for _, totem in ipairs(totems) do
-                    if string.find(totemName, totem[1]) then
-                        ConROC.totemVariables[totem[2]] = startTime + duration
-                        break  -- No need to continue checking other totems
-                    end
-                end
-            end
-        end
-    end
-end
-
-local Racial, Spec, Ability, Rank, Ele_Talent, Enh_Talent, Resto_Talent, Engrave, Runes, Buff, Debuff = ids.Racial, ids.Spec, ids.Ability, ids.Rank, ids.Elemental_Talent, ids.Enhancement_Talent, ids.Restoration_Talent, ids.Engrave, ids.Runes, ids.Buff, ids.Debuff;
-local _tickerVar = 10;
-local _mhP = nil;
-local _ohP = nil;
-local _mhEnchID, _mhTexture;
-local _ohEnchID, _ohTexture;
-local _mhAlpha = 1;
-local _ohAlpha = 1;
-
---Info
-local _Player_Spec, _Player_Spec_ID = ConROC:currentSpec();
-local _Player_Level = UnitLevel("player");
-local _Player_Percent_Health = ConROC:PercentHealth('player');
-local _is_PvP = ConROC:IsPvP();
-local _in_combat = UnitAffectingCombat('player');
-local _party_size = GetNumGroupMembers();
-local _is_PC = UnitPlayerControlled("target");
-local _is_Enemy = ConROC:TarHostile();
-local _Target_Health = UnitHealth('target');
-local _Target_Percent_Health = ConROC:PercentHealth('target');
-
---Resources
-local _Mana, _Mana_Max = ConROC:PlayerPower('Mana');
-
---Conditions
-local _Queue = 0;
-local _is__is_moving = ConROC:PlayerSpeed();
-local _enemies_in_melee, _target_in_melee = ConROC:Targets("Melee");
-local _enemies_in_10yrds, _target_in_10yrds = ConROC:Targets("10");
-local _enemies_in_20yrds, _target_in_20yrds = ConROC:Targets("20");
-local _enemies_in_40yrds, _target_in_40yrds = ConROC:Targets("40");
-local _can_Execute = _Target_Percent_Health < 20;
-
---Racials
-local _Berserking, _Berserking_RDY = _, _;
-
-function ConROC:Stats()
-	_Player_Spec, _Player_Spec_ID = ConROC:currentSpec();
-	_Player_Level = UnitLevel("player");
-	_Player_Percent_Health = ConROC:PercentHealth('player');
-	_is_PvP = ConROC:IsPvP();
-	_in_combat = UnitAffectingCombat('player');
-	_party_size = GetNumGroupMembers();
-	_is_PC = UnitPlayerControlled("target");
-	_is_Enemy = ConROC:TarHostile();
-	_Target_Health = UnitHealth('target');
-	_Target_Percent_Health = ConROC:PercentHealth('target');
-
-	_Mana, _Mana_Max = ConROC:PlayerPower('Mana');
-
-	_Queue = 0;
-	_is_moving = ConROC:PlayerSpeed();
-	_enemies_in_melee, _target_in_melee = ConROC:Targets("Melee");
-	_enemies_in_10yrds, _target_in_10yrds = ConROC:Targets("10");
-	_enemies_in_20yrds, _target_in_20yrds = ConROC:Targets("20");
-	_enemies_in_40yrds, _target_in_40yrds = ConROC:Targets("40");
-	_can_Execute = _Target_Percent_Health < 20;
-
-	_Berserking, _Berserking_RDY = ConROC:AbilityReady(Racial.Berserking, timeShift);
-end
-
-function ConROC.Shaman.Damage(_, timeShift, currentSpell, gcd)
-	ConROC:UpdateSpellID();
-	wipe(ConROC.SuggestedSpells);
-	ConROC:Stats();
-
---Abilities
-	local _ChainLightning, _ChainLightning_RDY = ConROC:AbilityReady(Ability.ChainLightning, timeShift);
-	    local _Clearcasting_BUFF = ConROC:Aura(Buff.Clearcasting, timeShift);
-    local _EarthShock, _EarthShock_RDY = ConROC:AbilityReady(Ability.EarthShock, timeShift);
-    local _EarthShockR1, _EarthShockR1_RDY = ConROC:AbilityReady(Rank.EarthShockRank1, timeShift);
-	local _ElementalMastery, _ElementalMastery_RDY = ConROC:AbilityReady(Ability.ElementalMastery, timeShift);
-    local _FlameShock, _FlameShock_RDY = ConROC:AbilityReady(Ability.FlameShock, timeShift);
-        local _FlameShock_DEBUFF = ConROC:TargetAura(_FlameShock, timeShift);
-    local _FrostShock, _FrostShock_RDY = ConROC:AbilityReady(Ability.FrostShock, timeShift);
-        local _FrostShock_DEBUFF = ConROC:TargetAura(_FrostShock, timeShift);
-	local _LightningBolt, _LightningBolt_RDY = ConROC:AbilityReady(Ability.LightningBolt, timeShift);
-        local _, _LightningShield_CHARGE = ConROC:Aura(_LightningShield, timeShift);
-	local _Purge, _Purge_RDY = ConROC:AbilityReady(Ability.Purge, timeShift);
-    local _Stormstrike, _Stormstrike_RDY = ConROC:AbilityReady(Ability.Stormstrike, timeShift);
-        local _Stormstrike_DEBUFF = ConROC:TargetAura(_Stormstrike, timeShift);
-
-    local _FlametongueWeapon, _FlametongueWeapon_RDY = ConROC:AbilityReady(Ability.FlametongueWeapon, timeShift);
-    local _FlametongueWeaponDR, _FlametongueWeaponDR_RDY = ConROC:AbilityReady(Ability.FlametongueWeaponDR, timeShift);
-    local _FrostbrandWeapon, _FrostbrandWeapon_RDY = ConROC:AbilityReady(Ability.FrostbrandWeapon, timeShift);
-    local _RockbiterWeapon, _RockbiterWeapon_RDY = ConROC:AbilityReady(Ability.RockbiterWeapon, timeShift);
-    local _WindfuryWeapon, _WindfuryWeapon_RDY = ConROC:AbilityReady(Ability.WindfuryWeapon, timeShift);
-
---Totems
-	local _GraceofAirTotem, _GraceofAirTotem_RDY = ConROC:AbilityReady(Ability.GraceofAirTotem, timeShift);
-    local _FireNovaTotem, _FireNovaTotem_RDY = ConROC:AbilityReady(Ability.FireNovaTotem, timeShift);
-    local _MagmaTotem, _MagmaTotem_RDY = ConROC:AbilityReady(Ability.MagmaTotem, timeShift);
-    local _ManaSpringTotem, _ManaSpringTotem_RDY = ConROC:AbilityReady(Ability.ManaSpringTotem, timeShift);
-	local _SearingTotem, _SearingTotem_RDY = ConROC:AbilityReady(Ability.SearingTotem, timeShift);
-	local _StrengthofEarthTotem, _StrengthofEarthTotem_RDY = ConROC:AbilityReady(Ability.StrengthofEarthTotem, timeShift);
-    local _WindfuryTotem, _WindfuryTotem_RDY = ConROC:AbilityReady(Ability.WindfuryTotem, timeShift);
-
---Totems durations
-	local _GraceofAirTotem_DUR = ConROC.totemVariables.goaTotemEXP - GetTime();
-	local _FireNovaTotem_DUR = ConROC.totemVariables.fnTotemEXP - GetTime();
-	local _MagmaTotem_DUR = ConROC.totemVariables.mTotemEXP - GetTime();
-	local _ManaSpringTotem_DUR = ConROC.totemVariables.mSpringTotemEXP - GetTime();
-	local _SearingTotem_DUR = ConROC.totemVariables.searTotemEXP - GetTime();
-    local _StrengthofEarthTotem_DUR = ConROC.totemVariables.soeTotemEXP - GetTime();
-	local _WindfuryTotem_DUR = ConROC.totemVariables.wfTotemEXP - GetTime();
-
---Runes
-    local _EarthShield, _EarthShield_RDY = ConROC:AbilityReady(Runes.EarthShield, timeShift);
-        local _EarthShield_BUFF = ConROC:Aura(_EarthShield, timeShift);
-    local _FeralSpirit, _FeralSpirit_RDY = ConROC:AbilityReady(Runes.FeralSpirit, timeShift);
-    local _LavaBurst, _LavaBurst_RDY = ConROC:AbilityReady(Runes.LavaBurst, timeShift);
-    local _LavaLash, _LavaLash_RDY = ConROC:AbilityReady(Runes.LavaLash, timeShift);
-        local _, _MaelstromWeapon_COUNT = ConROC:TargetAura(Debuff.MaelstromWeapon, timeShift);
-    local _MoltenBlast, _MoltenBlast_RDY = ConROC:AbilityReady(Runes.MoltenBlast, timeShift);
-        local _PowerSurge_BUFF = ConROC:Aura(Buff.PowerSurge, timeShift);
-
---Conditions
-    local resting = IsResting();
-    local mounted = IsMounted();
-    local onVehicle = UnitHasVehicleUI("player");
-	local hasMHEnch, _, mhCharges, mhEnchID, hasOHEnch, _, ohCharges, ohEnchId = GetWeaponEnchantInfo();
-
---Indicators
-    ConROC:AbilityRaidBuffs(_EarthShield, _EarthShield_RDY and not _EarthShield_BUFF and ConROC:OneBuff(_EarthShield));
-
-    ConROC:AbilityInterrupt(_EarthShockR1, _EarthShockR1_RDY and ConROC:Interrupt());
-    ConROC:AbilityPurge(_Purge, _Purge_RDY and ConROC:Purgable());
-
---Warnings
-    if not (mounted or onVehicle or resting) and not _in_combat then
-    	_tickerVar = _tickerVar + 1
-        local hasMainHandEnchant,
-            mainHandExpiration,
-            mainHandCharges,
-            mainHandEnchantID,
-            hasOffHandEnchant,
-            offHandExpiration,
-            offHandCharges,
-            offHandEnchantId = GetWeaponEnchantInfo()
-        if mainHandExpiration then
-        	mhExp = mainHandExpiration / 1000
-        else
-            mhExp = 0
-        end
-        if offHandExpiration then
-            ohExp = offHandExpiration / 1000
-        else
-            ohExp = 0
-        end
-
-        if _tickerVar >= 1 then
-            if ConROC:CheckBox(ConROC_SM_Option_Imbue) then
-
-                if ConROC:CheckBox(ConROC_SM_MH_FlametongueWeapon) and IsSpellKnown(_FlametongueWeapon) then
-                	ConROC:ChooseImbue(_FlametongueWeapon, true, mainHandEnchantID); -- spellID, isMainhand, enchantID
-                end
-
-                if ConROC:CheckBox(ConROC_SM_MH_FrostbrandWeapon) and IsSpellKnown(_FrostbrandWeapon) then
-                    ConROC:ChooseImbue(_FrostbrandWeapon, true, mainHandEnchantID); -- spellID, isMainhand, enchantID
-                end
-
-                if ConROC:CheckBox(ConROC_SM_MH_RockbiterWeapon) and IsSpellKnown(_RockbiterWeapon) then
-                	ConROC:ChooseImbue(_RockbiterWeapon, true, mainHandEnchantID); -- spellID, isMainhand, enchantID
-                end
-                if ConROC:CheckBox(ConROC_SM_MH_WindfuryWeapon) and IsSpellKnown(_WindfuryWeapon) then
-                    ConROC:ChooseImbue(_WindfuryWeapon, true, mainHandEnchantID); -- spellID, isMainhand, enchantID
-                end
-                if offHandType() then
-                	if ConROC:CheckBox(ConROC_SM_OH_FlametongueWeapon) and IsSpellKnown(_FlametongueWeapon) then
-    	                if ConROC:CheckBox(ConROC_SM_MH_FlametongueWeapon) then
-    	                	ConROC:ChooseImbue(_FlametongueWeaponDR, false, offHandEnchantId); -- spellID, isMainhand, enchantID
-    	                else
-    	                	ConROC:ChooseImbue(_FlametongueWeapon, false, offHandEnchantId); -- spellID, isMainhand, enchantID
-    	                end
-    	            end
-
-    	            if ConROC:CheckBox(ConROC_SM_OH_FrostbrandWeapon) and IsSpellKnown(_FrostbrandWeapon) then
-    	                ConROC:ChooseImbue(_FrostbrandWeapon, false, offHandEnchantId); -- spellID, isMainhand, enchantID
-    	            end
-
-    	            if ConROC:CheckBox(ConROC_SM_OH_RockbiterWeapon) and IsSpellKnown(_RockbiterWeapon) then
-    	                ConROC:ChooseImbue(_RockbiterWeapon, false, offHandEnchantId); -- spellID, isMainhand, enchantID
-    	            end
-    	            if ConROC:CheckBox(ConROC_SM_OH_WindfuryWeapon) and IsSpellKnown(_WindfuryWeapon) then
-    	                ConROC:ChooseImbue(_WindfuryWeapon, false, offHandEnchantId); -- spellID, isMainhand, enchantID
-    	            end
-    			else
-    				_ohP = "none"
-                    _ohEnchID = false
-    				_ohTexture = "0,0,0,0";	
-    	        end
-                if ConROC:CheckBox(ConROC_SM_MH_None) then
-                    _mhP = "none"
-                    _mhEnchID = false
-    				_mhTexture = "0,0,0,0";	
-                end
-                if ConROC:CheckBox(ConROC_SM_OH_None) then
-                    _ohP = "none"
-                    _ohEnchID = false
-    				_ohTexture = "0,0,0,0";	
-                end
-            end
-            _tickerVar = 0
-
-            if _mhP == nil then
-                _mhP = "none"
-                _mhEnchID = false
-    			_mhTexture = "0,0,0,0";	
-            end
-            if _ohP == nil then
-                _ohp = "none"
-                _ohEnchID = false
-    			_ohTexture = "0,0,0,0";	
-            end
-
-            if (mainHandEnchantID ~= _mhEnchID or offHandEnchantId ~= _ohEnchID) and (_mhP ~= "none" or _ohP ~= "none") then
-                if ConROC:CheckBox(ConROC_SM_Option_Imbue) then --and not (resting or _in_combat or mounted or onVehicle) then
-                    ConROC:ApplyImbue(_mhP, _mhTexture, _ohP, _ohTexture)
-                    if not ConROCApplyImbueFrame:IsShown() then
-                        ConROCApplyImbueFrame:Show()
-                    end
-                end
-            end
-            if ConROCApplyImbueFrame:IsShown() then
-                if not ConROC:CheckBox(ConROC_SM_Option_Imbue) or
-                    --(resting or mounted or onVehicle and not _in_combat) or 
-                    (_mhP == "none" and _ohP == "none") or
-                        (mainHandEnchantID == _mhEnchID and
-                            offHandEnchantId == _ohEnchID) or
-                        (mainHandEnchantID == _mhEnchID and _ohP == "none") or
-                        (offHandEnchantId == _ohEnchID and _mhP == "none")
-                then
-                    ConROCApplyImbueFrame:Hide()
-                end
-            end
-        end
-    else
-        if ConROCApplyImbueFrame:IsShown() then ConROCApplyImbueFrame:Hide() end
-    end
-
---Rotations
-    repeat
-        while(true) do
-            if ConROC.Seasons.IsSoD then
-                if _FeralSpirit_RDY then
-                    tinsert(ConROC.SuggestedSpells, _FeralSpirit);
-                    _FeralSpirit_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _FlameShock_RDY and not _FlameShock_DEBUFF and ConROC:CheckBox(ConROC_SM_Role_Tank) then
-                    tinsert(ConROC.SuggestedSpells, _FlameShock);
-                    _FlameShock_DEBUFF = true;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _ChainLightning_RDY and (_MaelstromWeapon_COUNT >= 5 or _PowerSurge_BUFF) and _enemies_in_20yrds >= 2 then
-                    tinsert(ConROC.SuggestedSpells, _ChainLightning);
-                    _ChainLightning_RDY = false;
-                    _MaelstromWeapon_COUNT = 0;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _LightningBolt_RDY and _MaelstromWeapon_COUNT >= 5 and ConROC:CheckBox(ConROC_SM_Role_Tank) then
-                    tinsert(ConROC.SuggestedSpells, _LightningBolt);
-                    _MaelstromWeapon_COUNT = 0;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _MoltenBlast_RDY and ConROC:CheckBox(ConROC_SM_Role_Tank) then
-                    tinsert(ConROC.SuggestedSpells, _MoltenBlast);
-                    _MoltenBlast_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _Stormstrike_RDY and not _Stormstrike_DEBUFF then
-                    tinsert(ConROC.SuggestedSpells, _Stormstrike);
-                    _Stormstrike_RDY = false;
-                    _Stormstrike_DEBUFF = true;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _EarthShock_RDY and ConROC:CheckBox(ConROC_SM_Role_Tank) then
-                    tinsert(ConROC.SuggestedSpells, _EarthShock);
-                    _EarthShock_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _LavaBurst_RDY and (_MaelstromWeapon_COUNT >= 5 or _PowerSurge_BUFF) then
-                    tinsert(ConROC.SuggestedSpells, _LavaBurst);
-                    _LavaBurst_RDY = false;
-                    _MaelstromWeapon_COUNT = 0;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _LightningBolt_RDY and _MaelstromWeapon_COUNT >= 5 then
-                    tinsert(ConROC.SuggestedSpells, _LightningBolt);
-                    _MaelstromWeapon_COUNT = 0;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _FlameShock_RDY and not _FlameShock_DEBUFF then
-                    tinsert(ConROC.SuggestedSpells, _FlameShock);
-                    _FlameShock_DEBUFF = true;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _LavaBurst_RDY and _FlameShock_DEBUFF and not ConROC:RuneEquipped(Engrave.MaelstromWeapon , "waist") then
-                    tinsert(ConROC.SuggestedSpells, _LavaBurst);
-                    _LavaBurst_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _EarthShock_RDY and (not ConROC:RuneEquipped(Engrave.RollingThunder , "wrist") or (_LightningShield_CHARGE >= 8 and ConROC:RuneEquipped(Engrave.RollingThunder , "wrist"))) then
-                    tinsert(ConROC.SuggestedSpells, _EarthShock);
-                    _EarthShock_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _LavaLash_RDY then
-                    tinsert(ConROC.SuggestedSpells, _LavaLash);
-                    _LavaLash_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _SearingTotem_RDY and _SearingTotem_DUR < 0.1 and _target_in_20yrds then
-                    tinsert(ConROC.SuggestedSpells, _SearingTotem);
-                    _SearingTotem_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _StrengthofEarthTotem_RDY and _StrengthofEarthTotem_DUR < 0.1 and _target_in_20yrds then
-                    tinsert(ConROC.SuggestedSpells, _StrengthofEarthTotem);
-                    _StrengthofEarthTotem_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _GraceofAirTotem_RDY and _GraceofAirTotem_DUR < 0.1 and _target_in_20yrds then
-                    tinsert(ConROC.SuggestedSpells, _GraceofAirTotem);
-                    _GraceofAirTotem_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if _ManaSpringTotem_RDY and _ManaSpringTotem_DUR < 0.1 and _target_in_20yrds then
-                    tinsert(ConROC.SuggestedSpells, _ManaSpringTotem);
-                    _ManaSpringTotem_RDY = false;
-                    _Queue = _Queue + 1;
-                    break;
-                end
-
-                if ConROC_AoEButton:IsVisible() then
-                    if _ChainLightning_RDY and not ConROC:RuneEquipped(Engrave.MaelstromWeapon , "waist") then
-                        tinsert(ConROC.SuggestedSpells, _ChainLightning);
-                        _ChainLightning_RDY = false;
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-                else
-                    if _LightningBolt_RDY and not ConROC:RuneEquipped(Engrave.MaelstromWeapon , "waist") then
-                        tinsert(ConROC.SuggestedSpells, _LightningBolt);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-                end
-            else--not SoD
-                if ConROC:CheckBox(ConROC_SM_Role_Melee) then
-                    if _LightningBolt_RDY and not _target_in_melee then
-                        tinsert(ConROC.SuggestedSpells, _LightningBolt);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _Stormstrike_RDY and _target_in_melee then
-                        tinsert(ConROC.SuggestedSpells, _Stormstrike);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _EarthShock_RDY and (_Clearcasting_BUFF or ((_Target_Percent_Health <= 5 and ConROC:Raidmob()) or (_Target_Percent_Health <= 20 and not ConROC:Raidmob()))) then
-                        tinsert(ConROC.SuggestedSpells, _EarthShock);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _FlameShock_RDY and not _FlameShock_DEBUFF then
-                        tinsert(ConROC.SuggestedSpells, _FlameShock);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _EarthShockR1_RDY and (ConROC:TalentChosen(Spec.Elemental, Ele_Talent.ElementalFocus) or ConROC:TalentChosen(Spec.Elemental, Ele_Talent.ElementalDevastation)) then
-                        tinsert(ConROC.SuggestedSpells, _EarthShockR1);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _SearingTotem_RDY and _SearingTotem_DUR < 0.1 then
-                        tinsert(ConROC.SuggestedSpells, _SearingTotem);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-                elseif ConROC:CheckBox(ConROC_SM_Role_Caster) then
-                    if ConROC:CheckBox(ConROC_SM_Option_Totems) then
-                        if (not ConROC_AoEButton:IsVisible() or (not _target_in_melee or _enemies_in_melee < 2)) and _SearingTotem_RDY and _SearingTotem_DUR < 0.1 then
-                            tinsert(ConROC.SuggestedSpells, _SearingTotem);
-                            _Queue = _Queue + 1;
-                            break;
-                        end
-
-                        if (ConROC_AoEButton:IsVisible() or _enemies_in_melee > 2) and _FireNovaTotem_RDY and _FireNovaTotem_DUR < 0.1 then
-                            tinsert(ConROC.SuggestedSpells, _FireNovaTotem);
-                            _Queue = _Queue + 1;
-                            break;
-                        end
-                    end
-
-                    if _ElementalMastery_RDY  and _in_combat then
-                        tinsert(ConROC.SuggestedSpells, _ElementalMastery);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _EarthShock_RDY and (_Clearcasting_BUFF or ((_Target_Percent_Health <= 5 and ConROC:Raidmob()) or (_Target_Percent_Health <= 20 and not ConROC:Raidmob()))) then
-                        tinsert(ConROC.SuggestedSpells, _EarthShock);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _FlameShock_RDY and not _FlameShock_DEBUFF then
-                        tinsert(ConROC.SuggestedSpells, _FlameShock);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _EarthShockR1_RDY and (ConROC:TalentChosen(Spec.Elemental, Ele_Talent.ElementalFocus) or ConROC:TalentChosen(Spec.Elemental, Ele_Talent.ElementalDevastation)) then
-                        tinsert(ConROC.SuggestedSpells, _EarthShockR1);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if ConROC_AoEButton:IsVisible() and _ChainLightning_RDY and not _is_moving then
-                        tinsert(ConROC.SuggestedSpells, _ChainLightning);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _LightningBolt_RDY and not _is_moving then
-                        tinsert(ConROC.SuggestedSpells, _LightningBolt);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _FrostShock_RDY and _FlameShock_DEBUFF then
-                        tinsert(ConROC.SuggestedSpells, _FrostShock);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-                else
-                    if _ChainLightning_RDY and _Clearcasting_BUFF then
-                        tinsert(ConROC.SuggestedSpells, _ChainLightning);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _LightningBolt_RDY and not _target_in_melee then
-                        tinsert(ConROC.SuggestedSpells, _LightningBolt);
-                        _Queue = _Queue + 1;
-                        break;
-                    end
-
-                    if _target_in_melee then
-                        if _Stormstrike_RDY then
-                            tinsert(ConROC.SuggestedSpells, _Stormstrike);
-                            _Queue = _Queue + 1;
-                            break;
-                        end
-
-                        if _EarthShock_RDY and (_Clearcasting_BUFF or ((_Target_Percent_Health <= 5 and ConROC:Raidmob()) or (_Target_Percent_Health <= 20 and not ConROC:Raidmob()))) then
-                            tinsert(ConROC.SuggestedSpells, _EarthShock);
-                            _Queue = _Queue + 1;
-                            break;
-                        end
-
-                        if _EarthShockR1_RDY and (ConROC:TalentChosen(Spec.Elemental, Ele_Talent.ElementalFocus) or ConROC:TalentChosen(Spec.Elemental, Ele_Talent.ElementalDevastation)) then
-                            tinsert(ConROC.SuggestedSpells, _EarthShockR1);
-                            _Queue = _Queue + 1;
-                            break;
-                        end
-                    end
-                end
-            end
-
-            tinsert(ConROC.SuggestedSpells, 26008); --Waiting Spell Icon
-            _Queue = _Queue + 3;
-            break;
-        end
-    until _Queue >= 3;
-return nil;
-end
-
-function ConROC.Shaman.Defense(_, timeShift, currentSpell, gcd)
-	ConROC:UpdateSpellID();
-	wipe(ConROC.SuggestedDefSpells);
-	ConROC:Stats();
-
---Abilities	
-	local _LightningShield, _LightningShield_RDY = ConROC:AbilityReady(Ability.LightningShield, timeShift);
-		local _LightningShield_BUFF = ConROC:Aura(_LightningShield, timeShift);
-
-    local _ShamanisticRage, _ShamanisticRage_RDY = ConROC:AbilityReady(Runes.ShamanisticRage, timeShift);
-	local _WaterShield, _WaterShield_RDY = ConROC:AbilityReady(Runes.WaterShield, timeShift);
-        local _WaterShield_BUFF = ConROC:Aura(_WaterShield, timeShift);
-
---Indicators	
-
---Warnings
-
---Rotations	
-    if ConROC.Seasons.IsSoD then
-        if ConROC:CheckBox(ConROC_SM_Shield_LightningShield) and _LightningShield_RDY and not _LightningShield_BUFF then
-            tinsert(ConROC.SuggestedDefSpells, _LightningShield);
-        end
-
-        if ConROC:CheckBox(ConROC_SM_Shield_WaterShield) and _WaterShield_RDY and not _WaterShield_BUFF then
-            tinsert(ConROC.SuggestedDefSpells, _WaterShield);
-        end
-
-        if _ShamanisticRage_RDY then
-            tinsert(ConROC.SuggestedDefSpells, _ShamanisticRage);
-        end
-    else
-        if _LightningShield_RDY and not _LightningShield_BUFF then
-            tinsert(ConROC.SuggestedDefSpells, _LightningShield);
-        end
-    end
-return nil;
-end
-
-local function getEnchantmentID(spellID)
-    local spellName = GetSpellInfo(spellID)
-    local subtext = GetSpellSubtext(spellID)
-    print(spellName);
-    print(spellName.."("..subtext..")");
-    -- Check if spellName is in the table
-    local enchantmentRow = ids.wpnEnchantments[spellName]
-
-    if enchantmentRow then
-        -- Extract rank as a number
-        local rank = tonumber(subtext and subtext:match("(%d+)"))
-
-        -- Check if rank is in the row
-        if rank and enchantmentRow[rank] then
-            return enchantmentRow[rank]
-        else
-            print("Invalid rank or rank not found in the row.")
-        end
-    else
-        print("Spell not found in the enchantments table.")
-    end
-end
-
--- Test the function with your spell ID
---[[local enchantmentID = getEnchantmentID(Enh_Ability.FlametongueWeaponRank9)
-
-if enchantmentID then
-    print("Enchantment ID:", enchantmentID)
-end--]]
-
-function ConROC:ChooseImbue(spellID, isMainhand, enchantID)
-	if isMainhand then
-		local spellName = GetSpellInfo(spellID);
-        local subtext = GetSpellSubtext(spellID);
-        local rank = tonumber(subtext and subtext:match("(%d+)"));
-        _mhEnchID = ids.wpnEnchantments[spellName][rank];
-        _mhTexture = GetSpellTexture(spellID);
-        if enchantID == _mhEnchID then
-            _mhAlpha = .5;
-        end
-        _mhP = (spellName.."("..subtext..")");
-        if enchantID ~= _mhEnchID then
-            _mhAlpha = 1;
-            ImbueErrorMessage(spellName, "mainhand");
-        end
-	else
-		local spellName = GetSpellInfo(spellID);
-        local subtext = GetSpellSubtext(spellID);
-        local rank = tonumber(subtext and subtext:match("(%d+)"));
-        _ohEnchID = ids.wpnEnchantments[spellName][rank];
-        _ohTexture = GetSpellTexture(spellID);
-        if enchantID == _ohEnchID then
-            _ohAlpha = .5;
-        end
-    	_ohP = (spellName.."("..subtext..")");
-        if enchantID ~= _ohEnchID then
-            _ohAlpha = 1;
-            ImbueErrorMessage(spellName, "offhand");
-        end
-	end
-end
-
-function ConROC:ApplyImbue(mhImbue, mhTexture, ohImbue, ohTexture)
-    local _, Class, classId = UnitClass("player")
-    local Color = RAID_CLASS_COLORS[Class]
-    if mhImbue ~= ("none" or nil) then
-        local mhName = mhImbue;
-       	local mhCast = "/cast [@none]"
-       	if string.find(mhName, "Rockbiter") then
-       		mhCast = "/cast"
-       	end
-        ConROCMainHandBGFrame:Show();
-        --ConROCMainHandFrame:Show();
-        if _mhAlpha == 1 then
-		    ConROCMainHandFrame:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square","ADD");
-		    ConROCMainHandFrame:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress","ADD");
-            ConROCMainHandFrame:SetAttribute("macrotext", mhCast .. " " .. mhName .. ";\n/use 16;\n/click StaticPopup1Button1;")
-        else
-            ConROCMainHandFrame:SetAttribute("macrotext", "")
-        end
-        ConROCMainHandBGFrame:SetNormalTexture(mhTexture);
-    else
-        ConROCMainHandBGFrame:Hide();
-        ConROCMainHandBGFrame:SetNormalTexture("");
-    	ConROCMainHandFrame:SetHighlightTexture("", "MOD");
-    	ConROCMainHandFrame:SetPushedTexture("", "MOD");
-        ConROCMainHandFrame:SetAttribute("macrotext", "")
-    end
-    ConROCMainHandBGFrame:SetAlpha(_mhAlpha);
-    ConROCMainHandFrame:SetAlpha(_mhAlpha);
-
-    if ohImbue ~= "none" then
-    	local ohName = ohImbue;
-       	local ohCast = "/cast [@none]"
-       	if string.find(ohName, "Rockbiter") then
-       		ohCast = "/cast"
-       	end
-    	ConROCOffHandBGFrame:Show();
-        --ConROCOffHandFrame:Show();
-        if _ohAlpha == 1 and _ohImbue ~= "empty" then
-            ConROCOffHandFrame:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square","ADD");
-		    ConROCOffHandFrame:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress","ADD");
-            ConROCOffHandFrame:SetAttribute("macrotext", ohCast .. " " .. ohName .. ";\n/use 17;\n/click StaticPopup1Button1;")
-        else
-        	ConROCOffHandFrame:SetAttribute("macrotext", "")
-        end
-        ConROCOffHandBGFrame:SetNormalTexture(ohTexture);
-    else
-        ConROCOffHandBGFrame:Hide();
-        ConROCOffHandBGFrame:SetNormalTexture("");
-    	ConROCOffHandFrame:SetHighlightTexture("", "MOD");
-    	ConROCOffHandFrame:SetPushedTexture("", "MOD");
-        ConROCOffHandFrame:SetAttribute("macrotext", "")
-    end
-    ConROCOffHandBGFrame:SetAlpha(_ohAlpha);
-    ConROCOffHandFrame:SetAlpha(_ohAlpha);
-end
-
-function ConROC:CreateImbueFrame()
-    local _, Class, classId = UnitClass("player")
-    local Color = RAID_CLASS_COLORS[Class]
-    local mhName = ""
-    --change to get texture from spell
-    local mhTexture = nil --select(5, GetItemInfoInstant(_InstantPoison.id))
-    local ohName = ""
-    local ohTexture = nil --select(5, GetItemInfoInstant(_DeadlyPoison.id))
-    local frame = CreateFrame("Frame", "ConROCApplyImbueFrame", UIParent, "BackdropTemplate")
-    RegisterStateDriver(frame, "visibility", "[combat] hide; nil")
-    frame:SetFrameStrata("MEDIUM")
-    frame:SetFrameLevel("4")
-    frame:SetSize(128 + 8, 64 + 8)
-
-    frame:SetBackdrop(
-        {
-            bgFile = "Interface\\CHATFRAME\\CHATFRAMEBACKGROUND",
-            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-            tile = true,
-            tileSize = 8,
-            edgeSize = 20,
-            insets = {left = 4, right = 4, top = 4, bottom = 4}
-        }
-    )
-    frame:SetBackdropColor(0, 0, 0, .75)
-    frame:SetBackdropBorderColor(Color.r, Color.g, Color.b, .75)
-    frame:SetPoint("TOP", UIErrorsFrame, "BOTTOM", 0, -20)
-    frame:SetMovable(true)
-    frame:EnableMouse(true)
-    frame:SetClampedToScreen(true)
-    frame:RegisterForDrag("LeftButton")
-    frame:SetClipsChildren(false)
-    frame:SetScript(
-        "OnDragStart",
-        function(self)
-            if ConROC.db.profile.unlockWindow then
-                if (IsAltKeyDown()) then
-                    frame:Start_is_moving()
-                end
-            end
-        end
-    )
-    frame:SetScript("OnDragStop", frame.Stop_is_movingOrSizing)
-    frame:SetScript(
-        "OnEnter",
-        function(self)
-            frame:SetAlpha(1)
-        end
-    )
-    frame:SetScript(
-        "OnLeave",
-        function(self)
-            if not MouseIsOver(frame) then
-                if ConROC.db.profile._Hide_Spellmenu then
-                    frame:SetAlpha(0)
-                else
-                    frame:SetAlpha(1)
-                end
-            end
-        end
-    )
-    local dragFrame = CreateFrame("Frame", "ConROCApplyPoisonFrame_DragFrame", frame)
-    dragFrame:SetFrameStrata('MEDIUM')
-    dragFrame:SetFrameLevel('8')
-    dragFrame:SetSize(26, 26)
-    dragFrame:SetAlpha(1)
-    dragFrame:SetPoint("BOTTOMLEFT", frame, "TOPRIGHT", -16, -16)
-
-    -- Background texture
-    local background = dragFrame:CreateTexture(nil, "BACKGROUND")
-    background:SetAllPoints()
-    background:SetTexture("Interface\\AddOns\\ConROC\\images\\move_icon")
-    background:SetDesaturated(true)
-    background:SetVertexColor(Color.r, Color.g, Color.b)
-    dragFrame.background = background
-
-    if ConROC.db.profile.unlockWindow then
-        dragFrame:Show();
-    else
-        dragFrame:Hide();
-    end
-
-    dragFrame:SetScript("OnMouseDown", function (self, otbutton, up)
-        if ConROC.db.profile.unlockWindow then
-                frame:Start_is_moving()
-        end
-    end)
-
-    dragFrame:SetScript("OnMouseUp", function (self, otbutton, up)
-        if ConROC.db.profile.unlockWindow then
-            frame:Stop_is_movingOrSizing();
-        end
-    end)
-    local MhBgFrame = CreateFrame("BUTTON", "ConROCMainHandBGFrame", frame, "SecureActionButtonTemplate");
-    local OhBgFrame = CreateFrame("BUTTON", "ConROCOffHandBGFrame", frame, "SecureActionButtonTemplate");
-    MhBgFrame:ClearAllPoints();
-    MhBgFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -4);
-    MhBgFrame:SetFrameStrata("MEDIUM");
-    MhBgFrame:SetFrameLevel("5");
-    MhBgFrame:SetSize(64, 64);
-    MhBgFrame:SetAlpha(1);
-    MhBgFrame:Show();
-    MhBgFrame:RegisterForClicks();
-    OhBgFrame:ClearAllPoints();
-    OhBgFrame:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -4, -4);
-    OhBgFrame:SetFrameStrata("MEDIUM");
-    OhBgFrame:SetFrameLevel("5");
-    OhBgFrame:SetSize(64, 64);
-    OhBgFrame:SetAlpha(1);
-    OhBgFrame:Show();
-    OhBgFrame:RegisterForClicks();
-
-    local secureMhButton = CreateFrame("BUTTON", "ConROCMainHandFrame", frame, "SecureActionButtonTemplate")
-    secureMhButton:ClearAllPoints()
-    secureMhButton:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -4)
-    secureMhButton:SetFrameStrata("MEDIUM")
-    secureMhButton:SetFrameLevel("6")
-    secureMhButton:SetSize(64, 64)
-    secureMhButton:SetAlpha(1)
-    local mhTitleText = secureMhButton:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-    mhTitleText:SetParent(secureMhButton)
-    mhTitleText:SetText("MH")
-    mhTitleText:SetFont("Fonts\\ARIALN.TTF", 20)
-    mhTitleText:SetShadowColor(0, 0, 0, 1)
-    mhTitleText:SetShadowOffset(2, -2)
-    mhTitleText:SetPoint("CENTER", secureMhButton, "CENTER", 0, 0)
-    secureMhButton:SetAttribute("type1", "macro")
-    secureMhButton:SetAttribute("macrotext", "/s zomg a left click! - Main hand")
-
-    secureMhButton:RegisterForClicks("AnyDown")
-    secureMhButton:Show()
-
-    local secureOhButton = CreateFrame("BUTTON", "ConROCOffHandFrame", frame, "SecureActionButtonTemplate")
-    secureOhButton:ClearAllPoints()
-    secureOhButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -4, -4)
-    secureOhButton:SetFrameStrata("MEDIUM")
-    secureOhButton:SetFrameLevel("6")
-    secureOhButton:SetSize(64, 64)
-    secureOhButton:SetAlpha(1)
-    local ohTitleText = secureOhButton:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-    ohTitleText:SetText("OH")
-    ohTitleText:SetFont("Fonts\\ARIALN.TTF", 20)
-    ohTitleText:SetShadowColor(0, 0, 0, 1)
-    ohTitleText:SetShadowOffset(2, -2)
-    ohTitleText:SetPoint("CENTER", secureOhButton, "CENTER", 0, 0)
-    secureOhButton:SetAttribute("type1", "macro")
-    secureOhButton:SetAttribute("macrotext", "/s zomg a left click! - Off hand")
-
-    secureOhButton:RegisterForClicks("AnyDown")
-    secureOhButton:Show();
-
-    frame:Hide()
-end
-
-ConROC:CreateImbueFrame()
-
-function ImbueErrorMessage(_pName, _hand)
-    ConROC:Warnings("Put " .. _pName .. " on your " .. _hand .. " weapon!!!", true);
-end
-
-function offHandType()
-    if select(2,GetInventoryItemLink("player", 17)) then
-	   local itemType = select(6, GetItemInfo(GetInventoryItemLink("player", 17)))
-        local isWeapon = itemType == "Weapon"
-	   return isWeapon
-    else
-        return false
-    end
+function ConROC:UpdateSpellID()
+--Ranks
+	--Elemental
+	if IsSpellKnown(ids.Rank.ChainLightningRank4) then ids.Ability.ChainLightning = ids.Rank.ChainLightningRank4;
+	elseif IsSpellKnown(ids.Rank.ChainLightningRank3) then ids.Ability.ChainLightning = ids.Rank.ChainLightningRank3;
+	elseif IsSpellKnown(ids.Rank.ChainLightningRank2) then ids.Ability.ChainLightning = ids.Rank.ChainLightningRank2; end
+
+	if IsSpellKnown(ids.Rank.EarthShockRank7) then ids.Ability.EarthShock = ids.Rank.EarthShockRank7;
+	elseif IsSpellKnown(ids.Rank.EarthShockRank6) then ids.Ability.EarthShock = ids.Rank.EarthShockRank6;
+	elseif IsSpellKnown(ids.Rank.EarthShockRank5) then ids.Ability.EarthShock = ids.Rank.EarthShockRank5;
+	elseif IsSpellKnown(ids.Rank.EarthShockRank4) then ids.Ability.EarthShock = ids.Rank.EarthShockRank4;
+	elseif IsSpellKnown(ids.Rank.EarthShockRank3) then ids.Ability.EarthShock = ids.Rank.EarthShockRank3;
+	elseif IsSpellKnown(ids.Rank.EarthShockRank2) then ids.Ability.EarthShock = ids.Rank.EarthShockRank2; end
+
+	if IsSpellKnown(ids.Rank.FireNovaTotemRank5) then ids.Ability.FireNovaTotem = ids.Rank.FireNovaTotemRank5;
+	elseif IsSpellKnown(ids.Rank.FireNovaTotemRank4) then ids.Ability.FireNovaTotem = ids.Rank.FireNovaTotemRank4;
+	elseif IsSpellKnown(ids.Rank.FireNovaTotemRank3) then ids.Ability.FireNovaTotem = ids.Rank.FireNovaTotemRank3;
+	elseif IsSpellKnown(ids.Rank.FireNovaTotemRank2) then ids.Ability.FireNovaTotem = ids.Rank.FireNovaTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.FlameShockRank6) then ids.Ability.FlameShock = ids.Rank.FlameShockRank6;
+	elseif IsSpellKnown(ids.Rank.FlameShockRank5) then ids.Ability.FlameShock = ids.Rank.FlameShockRank5;
+	elseif IsSpellKnown(ids.Rank.FlameShockRank4) then ids.Ability.FlameShock = ids.Rank.FlameShockRank4;
+	elseif IsSpellKnown(ids.Rank.FlameShockRank3) then ids.Ability.FlameShock = ids.Rank.FlameShockRank3;
+	elseif IsSpellKnown(ids.Rank.FlameShockRank2) then ids.Ability.FlameShock = ids.Rank.FlameShockRank2; end
+
+	if IsSpellKnown(ids.Rank.FrostShockRank4) then ids.Ability.FrostShock = ids.Rank.FrostShockRank4;
+	elseif IsSpellKnown(ids.Rank.FrostShockRank3) then ids.Ability.FrostShock = ids.Rank.FrostShockRank3;
+	elseif IsSpellKnown(ids.Rank.FrostShockRank2) then ids.Ability.FrostShock = ids.Rank.FrostShockRank2; end
+
+	if IsSpellKnown(ids.Rank.LightningBoltRank10) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank10;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank9) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank9;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank8) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank8;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank7) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank7;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank6) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank6;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank5) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank5;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank4) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank4;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank3) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank3;
+	elseif IsSpellKnown(ids.Rank.LightningBoltRank2) then ids.Ability.LightningBolt = ids.Rank.LightningBoltRank2; end
+
+	if IsSpellKnown(ids.Rank.MagmaTotemRank5) then ids.Ability.MagmaTotem = ids.Rank.MagmaTotemRank5;
+	elseif IsSpellKnown(ids.Rank.MagmaTotemRank4) then ids.Ability.MagmaTotem = ids.Rank.MagmaTotemRank4;
+	elseif IsSpellKnown(ids.Rank.MagmaTotemRank3) then ids.Ability.MagmaTotem = ids.Rank.MagmaTotemRank3;
+	elseif IsSpellKnown(ids.Rank.MagmaTotemRank2) then ids.Ability.MagmaTotem = ids.Rank.MagmaTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.PurgeRank2) then ids.Ability.Purge = ids.Rank.PurgeRank2; end
+
+	if IsSpellKnown(ids.Rank.SearingTotemRank6) then ids.Ability.SearingTotem = ids.Rank.SearingTotemRank6;
+	elseif IsSpellKnown(ids.Rank.SearingTotemRank5) then ids.Ability.SearingTotem = ids.Rank.SearingTotemRank5;
+	elseif IsSpellKnown(ids.Rank.SearingTotemRank4) then ids.Ability.SearingTotem = ids.Rank.SearingTotemRank4;
+	elseif IsSpellKnown(ids.Rank.SearingTotemRank3) then ids.Ability.SearingTotem = ids.Rank.SearingTotemRank3;
+	elseif IsSpellKnown(ids.Rank.SearingTotemRank2) then ids.Ability.SearingTotem = ids.Rank.SearingTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.StoneclawTotemRank6) then ids.Ability.StoneclawTotem = ids.Rank.StoneclawTotemRank6;
+	elseif IsSpellKnown(ids.Rank.StoneclawTotemRank5) then ids.Ability.StoneclawTotem = ids.Rank.StoneclawTotemRank5;
+	elseif IsSpellKnown(ids.Rank.StoneclawTotemRank4) then ids.Ability.StoneclawTotem = ids.Rank.StoneclawTotemRank4;
+	elseif IsSpellKnown(ids.Rank.StoneclawTotemRank3) then ids.Ability.StoneclawTotem = ids.Rank.StoneclawTotemRank3;
+	elseif IsSpellKnown(ids.Rank.StoneclawTotemRank2) then ids.Ability.StoneclawTotem = ids.Rank.StoneclawTotemRank2; end
+
+	--Enhancement
+	if IsSpellKnown(ids.Rank.FireResistanceTotemRank3) then ids.Ability.FireResistanceTotem = ids.Rank.FireResistanceTotemRank3;
+	elseif IsSpellKnown(ids.Rank.FireResistanceTotemRank2) then ids.Ability.FireResistanceTotem = ids.Rank.FireResistanceTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.FlametongueTotemRank4) then ids.Ability.FlametongueTotem = ids.Rank.FlametongueTotemRank4;
+	elseif IsSpellKnown(ids.Rank.FlametongueTotemRank3) then ids.Ability.FlametongueTotem = ids.Rank.FlametongueTotemRank3;
+	elseif IsSpellKnown(ids.Rank.FlametongueTotemRank2) then ids.Ability.FlametongueTotem = ids.Rank.FlametongueTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.FlametongueWeaponRank6) then ids.Ability.FlametongueWeapon = ids.Rank.FlametongueWeaponRank6;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank5) then ids.Ability.FlametongueWeapon = ids.Rank.FlametongueWeaponRank5;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank4) then ids.Ability.FlametongueWeapon = ids.Rank.FlametongueWeaponRank4;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank3) then ids.Ability.FlametongueWeapon = ids.Rank.FlametongueWeaponRank3;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank2) then ids.Ability.FlametongueWeapon = ids.Rank.FlametongueWeaponRank2; end
+
+	if IsSpellKnown(ids.Rank.FlametongueWeaponRank6) then ids.Ability.FlametongueWeaponDR = ids.Rank.FlametongueWeaponRank5;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank5) then ids.Ability.FlametongueWeaponDR = ids.Rank.FlametongueWeaponRank4;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank4) then ids.Ability.FlametongueWeaponDR = ids.Rank.FlametongueWeaponRank3;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank3) then ids.Ability.FlametongueWeaponDR = ids.Rank.FlametongueWeaponRank2;
+	elseif IsSpellKnown(ids.Rank.FlametongueWeaponRank2) then ids.Ability.FlametongueWeaponDR = ids.Rank.FlametongueWeaponRank1; end
+
+	if IsSpellKnown(ids.Rank.FrostResistanceTotemRank3) then ids.Ability.FrostResistanceTotem = ids.Rank.FrostResistanceTotemRank3;
+	elseif IsSpellKnown(ids.Rank.FrostResistanceTotemRank2) then ids.Ability.FrostResistanceTotem = ids.Rank.FrostResistanceTotemRank2; end	
+
+	if IsSpellKnown(ids.Rank.FrostbrandWeaponRank5) then ids.Ability.FrostbrandWeapon = ids.Rank.FrostbrandWeaponRank5;
+	elseif IsSpellKnown(ids.Rank.FrostbrandWeaponRank4) then ids.Ability.FrostbrandWeapon = ids.Rank.FrostbrandWeaponRank4;
+	elseif IsSpellKnown(ids.Rank.FrostbrandWeaponRank3) then ids.Ability.FrostbrandWeapon = ids.Rank.FrostbrandWeaponRank3;
+	elseif IsSpellKnown(ids.Rank.FrostbrandWeaponRank2) then ids.Ability.FrostbrandWeapon = ids.Rank.FrostbrandWeaponRank2; end
+
+	if IsSpellKnown(ids.Rank.GraceofAirTotemRank2) then ids.Ability.GraceofAirTotem = ids.Rank.GraceofAirTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.LightningShieldRank7) then ids.Ability.LightningShield = ids.Rank.LightningShieldRank7;
+	elseif IsSpellKnown(ids.Rank.LightningShieldRank6) then ids.Ability.LightningShield = ids.Rank.LightningShieldRank6;
+	elseif IsSpellKnown(ids.Rank.LightningShieldRank5) then ids.Ability.LightningShield = ids.Rank.LightningShieldRank5;
+	elseif IsSpellKnown(ids.Rank.LightningShieldRank4) then ids.Ability.LightningShield = ids.Rank.LightningShieldRank4;
+	elseif IsSpellKnown(ids.Rank.LightningShieldRank3) then ids.Ability.LightningShield = ids.Rank.LightningShieldRank3;
+	elseif IsSpellKnown(ids.Rank.LightningShieldRank2) then ids.Ability.LightningShield = ids.Rank.LightningShieldRank2; end
+
+	if IsSpellKnown(ids.Rank.NatureResistanceTotemRank3) then ids.Ability.NatureResistanceTotem = ids.Rank.NatureResistanceTotemRank3;
+	elseif IsSpellKnown(ids.Rank.NatureResistanceTotemRank2) then ids.Ability.NatureResistanceTotem = ids.Rank.NatureResistanceTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.RockbiterWeaponRank7) then ids.Ability.RockbiterWeapon = ids.Rank.RockbiterWeaponRank7;
+	elseif IsSpellKnown(ids.Rank.RockbiterWeaponRank6) then ids.Ability.RockbiterWeapon = ids.Rank.RockbiterWeaponRank6;
+	elseif IsSpellKnown(ids.Rank.RockbiterWeaponRank5) then ids.Ability.RockbiterWeapon = ids.Rank.RockbiterWeaponRank5;
+	elseif IsSpellKnown(ids.Rank.RockbiterWeaponRank4) then ids.Ability.RockbiterWeapon = ids.Rank.RockbiterWeaponRank4;
+	elseif IsSpellKnown(ids.Rank.RockbiterWeaponRank3) then ids.Ability.RockbiterWeapon = ids.Rank.RockbiterWeaponRank3;
+	elseif IsSpellKnown(ids.Rank.RockbiterWeaponRank2) then ids.Ability.RockbiterWeapon = ids.Rank.RockbiterWeaponRank2; end
+
+	if IsSpellKnown(ids.Rank.StoneskinTotemRank6) then ids.Ability.StoneskinTotem = ids.Rank.StoneskinTotemRank6;
+	elseif IsSpellKnown(ids.Rank.StoneskinTotemRank5) then ids.Ability.StoneskinTotem = ids.Rank.StoneskinTotemRank5;
+	elseif IsSpellKnown(ids.Rank.StoneskinTotemRank4) then ids.Ability.StoneskinTotem = ids.Rank.StoneskinTotemRank4;
+	elseif IsSpellKnown(ids.Rank.StoneskinTotemRank3) then ids.Ability.StoneskinTotem = ids.Rank.StoneskinTotemRank3;
+	elseif IsSpellKnown(ids.Rank.StoneskinTotemRank2) then ids.Ability.StoneskinTotem = ids.Rank.StoneskinTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.StrengthofEarthTotemRank5) then ids.Ability.StrengthofEarthTotem = ids.Rank.StrengthofEarthTotemRank5;
+	elseif IsSpellKnown(ids.Rank.StrengthofEarthTotemRank4) then ids.Ability.StrengthofEarthTotem = ids.Rank.StrengthofEarthTotemRank4;
+	elseif IsSpellKnown(ids.Rank.StrengthofEarthTotemRank3) then ids.Ability.StrengthofEarthTotem = ids.Rank.StrengthofEarthTotemRank3;
+	elseif IsSpellKnown(ids.Rank.StrengthofEarthTotemRank2) then ids.Ability.StrengthofEarthTotem = ids.Rank.StrengthofEarthTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.WindfuryTotemRank3) then ids.Ability.WindfuryTotem = ids.Rank.WindfuryTotemRank3;
+	elseif IsSpellKnown(ids.Rank.WindfuryTotemRank2) then ids.Ability.WindfuryTotem = ids.Rank.WindfuryTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.WindfuryWeaponRank4) then ids.Ability.WindfuryWeapon = ids.Rank.WindfuryWeaponRank4;
+	elseif IsSpellKnown(ids.Rank.WindfuryWeaponRank3) then ids.Ability.WindfuryWeapon = ids.Rank.WindfuryWeaponRank3;
+	elseif IsSpellKnown(ids.Rank.WindfuryWeaponRank2) then ids.Ability.WindfuryWeapon = ids.Rank.WindfuryWeaponRank2; end
+
+	if IsSpellKnown(ids.Rank.WindwallTotemRank3) then ids.Ability.WindwallTotem = ids.Rank.WindwallTotemRank3;
+	elseif IsSpellKnown(ids.Rank.WindwallTotemRank2) then ids.Ability.WindwallTotem = ids.Rank.WindwallTotemRank2; end
+
+	--Restoration
+	if IsSpellKnown(ids.Rank.AncestralSpiritRank5) then ids.Ability.AncestralSpirit = ids.Rank.AncestralSpiritRank5;
+	elseif IsSpellKnown(ids.Rank.AncestralSpiritRank4) then ids.Ability.AncestralSpirit = ids.Rank.AncestralSpiritRank4;
+	elseif IsSpellKnown(ids.Rank.AncestralSpiritRank3) then ids.Ability.AncestralSpirit = ids.Rank.AncestralSpiritRank3;
+	elseif IsSpellKnown(ids.Rank.AncestralSpiritRank2) then ids.Ability.AncestralSpirit = ids.Rank.AncestralSpiritRank2; end
+
+	if IsSpellKnown(ids.Rank.ChainHealRank3) then ids.Ability.ChainHeal = ids.Rank.ChainHealRank3;
+	elseif IsSpellKnown(ids.Rank.ChainHealRank2) then ids.Ability.ChainHeal = ids.Rank.ChainHealRank2; end
+
+	if IsSpellKnown(ids.Rank.LesserHealingWaveRank6) then ids.Ability.LesserHealingWave = ids.Rank.LesserHealingWaveRank6;
+	elseif IsSpellKnown(ids.Rank.LesserHealingWaveRank5) then ids.Ability.LesserHealingWave = ids.Rank.LesserHealingWaveRank5;
+	elseif IsSpellKnown(ids.Rank.LesserHealingWaveRank4) then ids.Ability.LesserHealingWave = ids.Rank.LesserHealingWaveRank4;
+	elseif IsSpellKnown(ids.Rank.LesserHealingWaveRank3) then ids.Ability.LesserHealingWave = ids.Rank.LesserHealingWaveRank3;
+	elseif IsSpellKnown(ids.Rank.LesserHealingWaveRank2) then ids.Ability.LesserHealingWave = ids.Rank.LesserHealingWaveRank2; end
+
+	if IsSpellKnown(ids.Rank.HealingStreamTotemRank5) then ids.Ability.HealingStreamTotem = ids.Rank.HealingStreamTotemRank5;
+	elseif IsSpellKnown(ids.Rank.HealingStreamTotemRank4) then ids.Ability.HealingStreamTotem = ids.Rank.HealingStreamTotemRank4;
+	elseif IsSpellKnown(ids.Rank.HealingStreamTotemRank3) then ids.Ability.HealingStreamTotem = ids.Rank.HealingStreamTotemRank3;
+	elseif IsSpellKnown(ids.Rank.HealingStreamTotemRank2) then ids.Ability.HealingStreamTotem = ids.Rank.HealingStreamTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.HealingWaveRank10) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank10;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank9) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank9;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank8) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank8;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank7) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank7;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank6) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank6;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank5) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank5;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank4) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank4;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank3) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank3;
+	elseif IsSpellKnown(ids.Rank.HealingWaveRank2) then ids.Ability.HealingWave = ids.Rank.HealingWaveRank2; end
+
+	if IsSpellKnown(ids.Rank.ManaSpringTotemRank4) then ids.Ability.ManaSpringTotem = ids.Rank.ManaSpringTotemRank4;
+	elseif IsSpellKnown(ids.Rank.ManaSpringTotemRank3) then ids.Ability.ManaSpringTotem = ids.Rank.ManaSpringTotemRank3;
+	elseif IsSpellKnown(ids.Rank.ManaSpringTotemRank2) then ids.Ability.ManaSpringTotem = ids.Rank.ManaSpringTotemRank2; end
+
+	if IsSpellKnown(ids.Rank.ManaTideTotemRank3) then ids.Ability.ManaTideTotem = ids.Rank.ManaTideTotemRank3;
+	elseif IsSpellKnown(ids.Rank.ManaTideTotemRank2) then ids.Ability.ManaTideTotem = ids.Rank.ManaTideTotemRank2; end
 end
